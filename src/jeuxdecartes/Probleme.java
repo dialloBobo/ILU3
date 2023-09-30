@@ -1,7 +1,7 @@
 package jeuxdecartes;
 
 public class Probleme extends Carte {
-	private Type type;
+	public Type type;
 	
 	public enum Type {
 		FEU ,ESSENCE,CREVAISON,ACCIDENT
