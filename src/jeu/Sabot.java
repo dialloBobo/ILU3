@@ -6,28 +6,30 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import jeuxdecartes.Attaque;
+import jeuxdecartes.Botte;
 import jeuxdecartes.Carte;
+import jeuxdecartes.Parade;
+
 
 public class Sabot implements Iterable <Carte> {
 		
-		private List <Carte> tabCartes;
+		private Carte[] tabCartes;
 		private int nbCartes;
 		private  int nbCartesMaxi;
 
 	
 
-		public Sabot( int nbCartesMaxi, int nbCartes) {
-			this.tabCartes = new ArrayList<>();
+		public Sabot( int nbCartesMaxi) {
+			this.tabCartes = new Carte [nbCartesMaxi];
 			this.nbCartesMaxi = nbCartesMaxi;
-			this.nbCartes = nbCartes;
+			
 		}
 
 
 
 
-		public List<Carte> getTabCartes() {
-			return tabCartes;
-		}
+	
 
 		public int getNbCartes() {
 			return nbCartes;
@@ -43,7 +45,7 @@ public class Sabot implements Iterable <Carte> {
 
 		private void ajouterCarte (Carte carte) {
 			if (nbCartes < nbCartesMaxi){ 
-				tabCartes.add(carte);
+				tabCartes[nbCartes]=carte;
 				nbCartes++;
 			}
 			else {
@@ -53,12 +55,12 @@ public class Sabot implements Iterable <Carte> {
 		}
 		
 		public void ajouterFamilleCarte (Carte carte ,int nombre) {
-			for (int i =0 ; i < nombre;i++) {
+			for (int i =0 ; i < nombre; i++) {
 				ajouterCarte(carte);
 			}
 			
 		}
-		public void ajouterFamilleCarte (List <Carte> tabCartes) {
+		public void ajouterFamilleCarte (Carte... tabCartes) {
 			
 			for (Carte carte : tabCartes) {
 				ajouterFamilleCarte(carte ,carte.getNombre());
@@ -76,38 +78,51 @@ public class Sabot implements Iterable <Carte> {
 		public Iterator<Carte> iterator() {
 			
 			return new Iterator<Carte> () {
-				private int indice =0;
+				private int indiceIt =0;
 				private int taille = nbCartes;
+				private boolean nextEffectue =false;
 				
 
 				@Override
 				public boolean hasNext() {
-					return indice < nbCartes;
+					return indiceIt < nbCartes;
 					
 				}
 
 				@Override
 				public Carte next() {
-					if (!hasNext()) {
+					if (hasNext()) {
+						Carte carte = tabCartes[indiceIt];
+						indiceIt++;
+						nextEffectue = true;
+						return carte;
+						
+					}
+					else {
 						throw new NoSuchElementException();
 					}
-					if (taille!=nbCartes) {
-						throw new ConcurrentModificationException();
-					}
-					return tabCartes.get(indice++);
+					
 					
 				
 			}
 			
 				@Override
 				public void remove() {
-					if (indice>0) {
-						tabCartes.remove(--indice);
-						taille--;
-						nbCartes--;
-						
+					if (nbCartes<1 || !nextEffectue) {
+						throw new IllegalStateException();
 					}
-					throw new IllegalStateException();
+					for(int i = indiceIt -1 ; i < nbCartes -1 ; i++) {
+						tabCartes[i]=tabCartes[i+1];
+					}
+					nextEffectue=false;
+					indiceIt --;
+					nbCartes --;
+					
+					if (indiceIt>0) {
+						
+						taille--;
+						nbCartes--;	
+					}
 				}
 				
 		};
@@ -117,6 +132,7 @@ public class Sabot implements Iterable <Carte> {
 
 }
 		public Carte piocher() {
+			
 			Iterator <Carte> iterator =iterator();
 			if (iterator.hasNext()) {
 				Carte carte = iterator.next();
@@ -126,6 +142,13 @@ public class Sabot implements Iterable <Carte> {
 			throw new NoSuchElementException();
 			
 		}
+
+
+
+
+
+
+		
 		
 }
 		
