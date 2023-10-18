@@ -1,6 +1,7 @@
 package jeuxdecartes;
 
 public class Probleme extends Carte {
+	
 	public Type type;
 	
 	public enum Type {
