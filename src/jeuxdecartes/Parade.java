@@ -19,7 +19,7 @@ public class Parade extends Bataille {
 			return "ROUE DE SECOURS";
 			
 		case ACCIDENT:
-			return "REPATIONS";
+			return "REPARATIONS";
 		default:
 			return "INCONNU";
 		}

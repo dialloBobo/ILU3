@@ -6,6 +6,7 @@ import jeuxdecartes.Probleme.Type;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class JeuDeCartes {
@@ -54,10 +55,18 @@ public class JeuDeCartes {
     	
         listeCartes = new ArrayList<>();
         for (Carte carte : typesDeCartes) {
-            for (int i = 0; i < carte.getNombre(); i++) {
+        	int nb = carte.getNombre();
+            for (int i = 0; i <nb ; i++) {
+            	
                 listeCartes.add(carte);
+                
             }
         }
+        
+        // question 6
+     // Mélanger les cartes
+        Collections.shuffle(listeCartes);
+        
     }
 
     public List<Carte> getListeCartes() {
@@ -66,18 +75,24 @@ public class JeuDeCartes {
     
     
     public boolean checkCount() {
-		for (Carte carteType : typesDeCartes) {
-			int nbrExemplaires = 0;
-			for (Carte carte : listeCartes) {
-				if (carteType.equals(carte)) {
-					nbrExemplaires++;
-				}
-			}
-			if (nbrExemplaires!=carteType.getNombre()) {
-				return false;
-			}
-		}
-		return true;
-	}
+        for (Carte carteType : typesDeCartes) {
+            int nbrExemplaires = 1;
+            for (Carte carte : listeCartes) {
+                if (carteType.equals(carte)) {
+                    nbrExemplaires++;    
+                   
+                }
+            }
+
+            if (nbrExemplaires !=carteType.getNombre() ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    
+
     
 }
