@@ -25,11 +25,10 @@ public class MainAsListe implements Main {
 
 	@Override
 	public void jouer(Carte carte) {
-		if (cartEnMain.contains(carte)) {
+		assert cartEnMain.contains(carte); 
 			cartEnMain.remove(carte);
 		
-		}
-		throw new IllegalArgumentException("Carte vide");
+		
 		
 	}
 

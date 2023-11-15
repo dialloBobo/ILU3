@@ -3,6 +3,8 @@ package jeuxdecartes;
 import java.util.Objects;
 
 public class Carte {
+
+	    
 	private int nombre;
 	
 	
